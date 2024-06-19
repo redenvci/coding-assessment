@@ -50,11 +50,11 @@ export default async function Page({
                         {index === types.length - 2 ? " and " : ""}
                       </>
                     ))
-                  } available for you in&nbsp; <br />
+                  } available for you in our&nbsp; <br />
                 </p>
                 <div className="flex flex-row peer items-end">
                   <Link href={location?.googleMap || "#"} target="_blank" className="p-2 px-8 text-center cursor-pointer peer text-primary-foreground w-fit text-3xl font-bold bg-[#ff5900] -rotate-3 hover:shadow-md hover:rotate-0 active:rotate-3">
-                    {location?.name}&nbsp;
+                    {location?.name} Branch&nbsp;
                   </Link>
                   <p className="p-2 cursor-pointer peer text-primary-foreground w-fit text-sm font-bold uppercase tracking-wide">
                     It&apos;s only <span className="underline underline-offset-4">{distance}</span> miles away!
