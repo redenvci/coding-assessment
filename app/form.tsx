@@ -14,7 +14,7 @@ function SubmitButton() {
   return (
     <Button type="submit" className="w-full max-w-sm h-12 border border-[#0f5558] shadow-lg hover:shadow-md active:shadow-sm">
       {status.pending && (
-        <FaSpinner className="animate-spin" />
+        <FaSpinner className="animate-spin mr-2" />
       )}
       Get Started
     </Button>

