@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { useFormState, useFormStatus } from "react-dom";
 import { FaSpinner } from "react-icons/fa6";
 import { submit } from "./action";
+import { useEffect } from "react";
 
 function SubmitButton() {
   const status = useFormStatus();
@@ -19,9 +20,16 @@ function SubmitButton() {
 }
 
 export default function InquiryForm() {
-  const [state, dispatch] = useFormState(submit, {
-    errors: null,
-  });
+  const [state, dispatch] = useFormState(submit, {} as any);
+  const status = useFormStatus();
+
+  useEffect(() => {
+    if (!status.pending) {
+      if (state.id) {
+        window.location.href = `/result/${state.id}`;
+      }
+    }
+  }, [status, state])
 
   return (
     <div className="w-full space-y-2">

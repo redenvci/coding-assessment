@@ -87,3 +87,7 @@ export const findNearestLocation = (zipcode: string) => {
 
   return nearestLocation;
 };
+
+export const getDistance = (zipcode: string, location: string) => {
+  return zipcodes.distance(zipcode, location) ?? 9999;
+};

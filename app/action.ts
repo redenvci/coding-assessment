@@ -1,9 +1,12 @@
 "use server";
 
 import { z } from "zod";
+import { nanoid } from "nanoid";
+import { GenerateJson } from "@/lib/server/utils";
 
 type FormState = {
-  errors?: string | null;
+  id?: string;
+  errors?: string;
 };
 
 export async function submit(prevState: FormState, next: FormData) {
@@ -18,12 +21,15 @@ export async function submit(prevState: FormState, next: FormData) {
 
     const formData = formSchema.parse({ name, email, zipcode });
 
+    const id = nanoid(8);
+    await GenerateJson(id, formData);
+
     return {
-      errors: null,
+      id,
     };
   } catch (e: any) {
     return {
-      errors: e.errors[0].message,
+      errors: "An error occurred",
     };
   }
 }
