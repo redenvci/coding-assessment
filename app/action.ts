@@ -11,15 +11,28 @@ type FormState = {
 
 export async function submit(prevState: FormState, next: FormData) {
   const formSchema = z.object({
-    name: z.string().min(1),
-    email: z.string().email().min(1),
-    zipcode: z.string().length(5),
+    name: z.string().min(1, {
+      message: "Name is required",
+    }),
+    email: z.string().email().min(1, {
+      message: "Email is required",
+    }),
+    zipcode: z.string().length(5, {
+      message: "Zip code must be 5 characters",
+    }),
+    type: z
+      .string({
+        required_error: "Medical Staffing Type is required",
+      })
+      .min(1, {
+        message: "Medical Staffing Type is required",
+      }),
   });
 
   try {
-    const { name, email, zipcode } = Object.fromEntries(next);
+    const { name, email, zipcode, type } = Object.fromEntries(next);
 
-    const formData = formSchema.parse({ name, email, zipcode });
+    const formData = formSchema.parse({ name, email, zipcode, type });
 
     const id = nanoid(8);
     await GenerateJson(id, formData);
@@ -29,7 +42,7 @@ export async function submit(prevState: FormState, next: FormData) {
     };
   } catch (e: any) {
     return {
-      errors: "An error occurred",
+      errors: e.errors[0].message,
     };
   }
 }

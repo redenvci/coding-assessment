@@ -5,7 +5,9 @@ import { Input } from "@/components/ui/input";
 import { useFormState, useFormStatus } from "react-dom";
 import { FaSpinner } from "react-icons/fa6";
 import { submit } from "./action";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Select from 'react-select'
+
 
 function SubmitButton() {
   const status = useFormStatus();
@@ -19,9 +21,18 @@ function SubmitButton() {
   )
 }
 
+const options = [
+  { value: 'Assisted Living', label: 'Assisted Living' },
+  { value: 'Home Care', label: 'Home Care' },
+  { value: 'Home Health', label: 'Home Health' },
+  { value: 'Independent Living/Retirement Community', label: 'Independent Living/Retirement Community' },
+
+]
+
 export default function InquiryForm() {
   const [state, dispatch] = useFormState(submit, {} as any);
   const status = useFormStatus();
+  const [selected, setSelected] = useState<string[]>([]);
 
   useEffect(() => {
     if (!status.pending) {
@@ -38,6 +49,12 @@ export default function InquiryForm() {
           <Input type="text" name="name" placeholder="Name" className="col-span-4 h-12" />
           <Input type="email" name="email" placeholder="Email" className="col-span-4 h-12" />
           <Input type="text" name="zipcode" placeholder="Zip Code" className="w-full col-span-4 lg:col-span-2 h-12" />
+          <div className="flex col-span-4 h-fit">
+            <Select options={options} className="w-full col-span-4 lg:col-span-2 h-fit" isMulti onChange={(e) => {
+              setSelected(e.map((item) => item.value));
+            }} />
+          </div>
+          <input type="hidden" name="type" value={selected.join(",")} />
           {state?.errors && (
             <p className="text-red-500 col-span-4 lg:col-span-2">{state.errors}</p>
           )}

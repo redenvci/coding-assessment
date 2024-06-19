@@ -21,6 +21,7 @@ export default async function Page({
   const name = jsonData?.name || "John Doe";
   const location = findNearestLocation(jsonData?.zipcode)
   const distance = getDistance(location?.zipcode, jsonData?.zipcode)
+  const types = jsonData?.type.split(",").map((type: string) => type.trim())
 
   return (
     <div className="flex flex-col w-full min-h-screen bg-[#083739] text-center md:text-start">
@@ -28,6 +29,9 @@ export default async function Page({
         <div className="container px-4 md:px-6">
           <div className="grid gap-6 lg:grid-cols-2 lg:gap-12">
             <div className="flex flex-col justify-center space-y-4">
+              <Link className="hover:underline text-primary-foreground/50 text-sm hover:text-primary-foreground" href="/">
+                Back to Home
+              </Link>
               <div className="flex flex-col gap-2 items-center lg:items-start">
                 <h1 className="text-3xl text-white font-bold tracking-tighter text-primary-foreground sm:text-5xl xl:text-5xl">
                   Hey,&nbsp;
@@ -36,7 +40,17 @@ export default async function Page({
                   </span>
                 </h1>
                 <p className="max-w-[600px] text-primary-foreground md:text-2xl font-normal mt-4">
-                  We have Assisted Living, and Home Care available for you in&nbsp; <br />
+                  We have {
+                    types.map((type: string, index: number) => (
+                      <>
+                        <span className="font-bold hover:text-[#ff5900] cursor-pointer hover:underline" key={index}>
+                          {type}
+                        </span>
+                        {index < types.length - 1 ? ", " : ""}
+                        {index === types.length - 2 ? " and " : ""}
+                      </>
+                    ))
+                  } available for you in&nbsp; <br />
                 </p>
                 <div className="flex flex-row peer items-end">
                   <Link href={location?.googleMap || "#"} target="_blank" className="p-2 px-8 text-center cursor-pointer peer text-primary-foreground w-fit text-3xl font-bold bg-[#ff5900] -rotate-3 hover:shadow-md hover:rotate-0 active:rotate-3">
